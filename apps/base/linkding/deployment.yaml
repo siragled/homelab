@@ -17,6 +17,12 @@ spec:
         runAsUser: 33
         runAsGroup: 33
 
+      envFrom:
+        - configMapRef:
+            name: linkding-configmap
+        - secretRef:
+            name: linkding-container-env
+
       containers:
         - name: linkding
           image: sissbruecker/linkding:1.40.0
