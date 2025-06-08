@@ -22,6 +22,8 @@ spec:
           image: sissbruecker/linkding:1.40.0
           ports:
             - containerPort: 9090
+          securityContext:
+            allowPrivilegeEscalation: false
           volumeMounts:
             - name: linkding-data-pvc
               mountPath: /etc/linkding/data
