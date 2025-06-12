@@ -14,7 +14,7 @@ spec:
 #    provider: sops
 #    secretRef:
 #      name: sops-age
-  timeout: 5mi
+  timeout: 5m
 #---
 #apiVersion: kustomize.toolkit.fluxcd.io/v1
 #kind: Kustomization
