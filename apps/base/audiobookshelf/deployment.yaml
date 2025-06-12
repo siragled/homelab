@@ -25,6 +25,8 @@ spec:
           image: ghcr.io/advplyr/audiobookshelf:2.22.0
           ports:
             - containerPort: 3005
+              protocol: TCP
+              
           securityContext:
             allowPrivilegeEscalation: false
           volumeMounts:
