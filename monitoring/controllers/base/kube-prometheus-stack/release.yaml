@@ -33,7 +33,7 @@ spec:
         ingressClassName: traefik
         hosts:
           - grs.danils.org
-        tls: []
+        tls:
           - secretName: grafana-tls-secret
             hosts:
               - grs.danils.org
