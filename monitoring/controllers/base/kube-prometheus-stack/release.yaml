@@ -34,3 +34,6 @@ spec:
         hosts:
           - grs.danils.org
         tls: []
+          - secretName: grafana-tls-secret
+            hosts:
+              - grs.danils.org
