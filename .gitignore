@@ -1,5 +1,6 @@
 .envrc
 kubeconfig
-
+tls.key
+tls.crt
 .devcontainer.json
 age.agekey
