@@ -20,3 +20,31 @@ spec:
           image: ghcr.io/advplyr/audiobookshelf:2.22.0
           ports:
             - containerPort: 3005
+          volumeMounts:
+            - name: audiobookshelf-audiobooks-pvc
+              mountPath: /audiobooks
+            - name: audiobookshelf-podcasts-pvc
+              mountPath: /podcasts
+            - name: audiobookshelf-metadata-pvc
+              mountPath: /config
+            - name: audiobookshelf-config-pvc
+              mountPath: /metadata
+
+      volumes:
+        - name: audiobookshelf-audiobooks-pvc
+          persistentVolumeClaim:
+            claimName: audiobookshelf-audiobooks-pvc
+        - name: audiobookshelf-podcasts-pvc
+          persistentVolumeClaim:
+            claimName: audiobookshelf-podcasts-pvc
+        - name: audiobookshelf-metadata-pvc
+          persistentVolumeClaim:
+            claimName: audiobookshelf-metadata-pvc
+        - name: audiobookshelf-config-pvc
+          persistentVolumeClaim:
+            claimName: audiobookshelf-config-pvc
+
+
+
+
+
