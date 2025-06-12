@@ -12,6 +12,11 @@ spec:
       labels:
         app: audiobookshelf
     spec:
+      ecurityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsGroup: 1000
+
       envFrom:
         - configMapRef:
             name: audiobookshelf-configmap
@@ -20,6 +25,8 @@ spec:
           image: ghcr.io/advplyr/audiobookshelf:2.22.0
           ports:
             - containerPort: 3005
+          securityContext:
+            allowPrivilegeEscalation: false
           volumeMounts:
             - name: audiobookshelf-audiobooks-pvc
               mountPath: /audiobooks
