@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yaml
+  - samba-dep.yaml
+  - samba-svc.yaml
+  - storage.yaml
+  - torrent-dep.yaml
+  - torrent-svc.yaml

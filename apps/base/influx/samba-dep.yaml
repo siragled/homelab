@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: samba
+  namespace: influx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: samba
+  template:
+    metadata:
+      labels:
+        app: samba
+    spec:
+      containers:
+      - name: samba
+        image: dperson/samba
+        args:
+          - "-p"
+          - "-s"
+          - "downloads;/share;yes;no;no;all"
+        ports:
+          - containerPort: 445
+          - containerPort: 139
+        volumeMounts:
+          - name: downloads
+            mountPath: /share
+      volumes:
+      - name: downloads
+        persistentVolumeClaim:
+          claimName: media-pvc
