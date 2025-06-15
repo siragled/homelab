@@ -15,20 +15,21 @@ spec:
     spec:
       containers:
       - name: monitor
-        image: itzg/mc-monitor
-        command: ["/bin/sh", "/script/monitor.sh"]
+        image: siragled/mc-monitor-custom:latest
+        command: ["/bin/bash", "/script/monitor.sh"]
         volumeMounts:
         - name: script-volume
           mountPath: /script
         - name: kubeconfig
-          mountPath: /root/.kube
+          mountPath: /kube
           readOnly: true
-      restartPolicy: Always
+        env:
+        - name: KUBECONFIG
+          value: /kube/config
       volumes:
       - name: script-volume
         configMap:
           name: mc-idle-script
-          defaultMode: 0755
       - name: kubeconfig
         secret:
           secretName: kubeconfig-secret
