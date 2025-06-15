@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft
+  namespace: minecraft
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minecraft
+  template:
+    metadata:
+      labels:
+        app: minecraft
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: minecraft
+        image: openjdk:21-jdk-slim
+        workingDir: /data
+        command: ["bash", "./run.sh"]
+
+        securityContext:
+            allowPrivilegeEscalation: fals
+
+        ports:
+        - containerPort: 25565
+
+        volumeMounts:
+        - name: minecraft-data
+          mountPath: /data
+          
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+          runAsNonRoot: true
+      volumes:
+      - name: minecraft-data
+        persistentVolumeClaim:
+          claimName: minecraft-pvc
