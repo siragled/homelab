@@ -20,9 +20,6 @@ spec:
         workingDir: /data
         command: ["bash", "./run.sh"]
 
-        securityContext:
-            allowPrivilegeEscalation: fals
-
         ports:
         - containerPort: 25565
 
@@ -34,6 +31,7 @@ spec:
           runAsUser: 1000
           runAsGroup: 1000
           runAsNonRoot: true
+          allowPrivilegeEscalation: false
       volumes:
       - name: minecraft-data
         persistentVolumeClaim:
