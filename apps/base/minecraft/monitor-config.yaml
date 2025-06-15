@@ -5,7 +5,7 @@ metadata:
   namespace: minecraft
 data:
   monitor.sh: |
-    #!/bin/sh
+    #!/bin/bash
 
     DEPLOYMENT="mc-server"
     NAMESPACE="minecraft"
@@ -16,24 +16,25 @@ data:
     echo "[monitor] Watching Minecraft server activity..."
 
     while true; do
-      player_count=$(mc-monitor status --host localhost --port 25565 | grep -oE 'players: [0-9]+' | awk '{print $2}')
+      player_count=$(mc-monitor status --host minecraft.minecraft.svc.cluster.local --port 25565 | grep -oP '(?<=players: )\d+')
 
       echo "[monitor] Player count: $player_count"
 
-      if [ -z "$player_count" ] || [ "$player_count" -eq 0 ]; then
+      if [[ "$player_count" == "0" || -z "$player_count" ]]; then
         IDLE_COUNT=$((IDLE_COUNT + 1))
       else
         IDLE_COUNT=0
       fi
 
       total_idle_minutes=$((IDLE_COUNT * CHECK_INTERVAL / 60))
+
       echo "[monitor] Idle minutes: $total_idle_minutes / $IDLE_MINUTES"
 
-      if [ "$total_idle_minutes" -ge "$IDLE_MINUTES" ]; then
+      if (( total_idle_minutes >= IDLE_MINUTES )); then
         echo "[monitor] No activity for $IDLE_MINUTES minutes. Scaling down $DEPLOYMENT..."
         kubectl scale deployment "$DEPLOYMENT" -n "$NAMESPACE" --replicas=0
         exit 0
       fi
 
-      sleep "$CHECK_INTERVAL"
+      sleep $CHECK_INTERVAL
     done
