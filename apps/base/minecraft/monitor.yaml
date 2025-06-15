@@ -27,9 +27,10 @@ spec:
         - name: KUBECONFIG
           value: /kube/config
       volumes:
-      - name: script-volume
+      - name: mc-idle-script
         configMap:
           name: mc-idle-script
+          defaultMode: 0755
       - name: kubeconfig
         secret:
           secretName: kubeconfig-secret
