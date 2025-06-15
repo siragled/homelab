@@ -13,22 +13,22 @@ spec:
       labels:
         app: mc-idle-monitor
     spec:
-      serviceAccountName: mc-monitor
       containers:
       - name: monitor
         image: itzg/mc-monitor
-        command: ["/bin/bash", "-c"]
-        args:
-          - |
-            apt update && apt install -y curl jq && \
-            /scripts/monitor.sh
+        command: ["/bin/sh", "/script/monitor.sh"]
         volumeMounts:
-        - name: monitor-script
-          mountPath: /scripts
-        env:
-        - name: KUBECONFIG
-          value: /root/.kube/config
+        - name: script-volume
+          mountPath: /script
+        - name: kubeconfig
+          mountPath: /root/.kube
+          readOnly: true
+      restartPolicy: Always
       volumes:
-      - name: monitor-script
+      - name: script-volume
         configMap:
           name: mc-idle-script
+          defaultMode: 0755
+      - name: kubeconfig
+        secret:
+          secretName: kubeconfig-secret
