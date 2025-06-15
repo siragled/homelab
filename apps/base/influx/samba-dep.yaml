@@ -18,6 +18,8 @@ spec:
         image: dperson/samba
         args:
           - "-p"
+          - "-u"
+          - "smb;smb"
           - "-s"
           - "downloads;/share;yes;no;no;all"
         ports:

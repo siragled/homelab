@@ -3,3 +3,5 @@ kind: Kustomization
 namespace: influx
 resources:
   - ../../base/influx/
+  - cloudflare-secret.yaml
+  - cloudflare.yaml
