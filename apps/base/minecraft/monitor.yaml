@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mc-idle-monitor
+  namespace: minecraft
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mc-idle-monitor
+  template:
+    metadata:
+      labels:
+        app: mc-idle-monitor
+    spec:
+      serviceAccountName: mc-monitor
+      containers:
+      - name: monitor
+        image: itzg/mc-monitor
+        command: ["/bin/bash", "-c"]
+        args:
+          - |
+            apt update && apt install -y curl jq && \
+            /scripts/monitor.sh
+        volumeMounts:
+        - name: monitor-script
+          mountPath: /scripts
+        env:
+        - name: KUBECONFIG
+          value: /root/.kube/config
+      volumes:
+      - name: monitor-script
+        configMap:
+          name: mc-idle-script
