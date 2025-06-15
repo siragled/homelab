@@ -18,7 +18,7 @@ spec:
         image: siragled/mc-monitor-custom:latest
         command: ["/bin/bash", "/script/monitor.sh"]
         volumeMounts:
-        - name: script-volume
+        - name: mc-idle-script
           mountPath: /script
         - name: kubeconfig
           mountPath: /kube
