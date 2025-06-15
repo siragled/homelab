@@ -8,3 +8,5 @@ resources:
   - rbac.yaml
   - control-dep.yaml
   - control-svc.yaml
+  - monitor-config.yaml
+  - monitor.yaml

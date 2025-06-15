@@ -2,13 +2,13 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mc-idle-script
-  namespace: games
+  namespace: minecraft
 data:
   monitor.sh: |
     #!/bin/bash
 
     DEPLOYMENT="mc-server"
-    NAMESPACE="games"
+    NAMESPACE="minecraft"
     IDLE_MINUTES=15
     CHECK_INTERVAL=60
     IDLE_COUNT=0
