@@ -22,12 +22,26 @@ spec:
         - name: downloads
           mountPath: /downloads
         env:
-        - name: PUID
-          value: "1000"
-        - name: PGID
-          value: "1000"
+        - name: WEBUI_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: qbittorrent-config
+              key: WEBUI_PORT
         - name: TZ
-          value: "Europe/Amsterdam"
+          valueFrom:
+            configMapKeyRef:
+              name: qbittorrent-config
+              key: TZ
+        - name: PUID
+          valueFrom:
+            configMapKeyRef:
+              name: qbittorrent-config
+              key: PUID
+        - name: PGID
+          valueFrom:
+            configMapKeyRef:
+              name: qbittorrent-config
+              key: PGID
       volumes:
       - name: downloads
         persistentVolumeClaim:
