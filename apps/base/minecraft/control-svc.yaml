@@ -7,6 +7,5 @@ spec:
   selector:
     app: mc-control
   ports:
-  - port: 80
-    targetPort: 8080
+  - port: 8080
   type: ClusterIP
