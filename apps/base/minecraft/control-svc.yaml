@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mc-control
+  namespace: minecraft
+spec:
+  selector:
+    app: mc-control
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: ClusterIP
