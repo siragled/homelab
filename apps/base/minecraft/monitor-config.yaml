@@ -16,7 +16,7 @@ data:
     echo "[monitor] Watching Minecraft server activity..."
 
     while true; do
-      player_count=$(mc-monitor status --host minecraft.minecraft.svc.cluster.local --port 25565 | grep -oP '(?<=players: )\d+')
+      player_count=$(mc-monitor status --host jaboba.gay --port 25565 | grep 'players:' | awk '{print $2}')
 
       echo "[monitor] Player count: $player_count"
 
