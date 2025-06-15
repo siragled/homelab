@@ -7,3 +7,4 @@ resources:
   - storage.yaml
   - torrent-dep.yaml
   - torrent-svc.yaml
+  - torrent-configmap.yaml
