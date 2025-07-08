@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-job-ui
+  namespace: kubejobhunt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kube-job-ui
+  template:
+    metadata:
+      labels:
+        app: kube-job-ui
+    spec:
+      containers:
+      - name: web-ui
+        image: siragled/kube-job-ui:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: job-data-storage
+          mountPath: /data
+          readOnly: true
+      volumes:
+      - name: job-data-storage
+        persistentVolumeClaim:
+          claimName: job-data-pvc
