@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: web-ui
+  name: jobspy-api
   namespace: kubejobhunt
 spec:
   selector:
-    app: web-ui
+    app: jobspy-api
   ports:
   - protocol: TCP
-    port: 80
-    targetPort: 80
+    port: 8085
+    targetPort: 8085

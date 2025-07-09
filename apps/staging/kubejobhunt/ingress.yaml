@@ -13,6 +13,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: kube-job-ui 
+                name: web-ui
                 port:
                   number: 80 

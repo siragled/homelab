@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: processor-cron
+  namespace: kubejobhunt
+spec:
+  schedule: "0 2 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: processor
+            image: siragled/kubejobhunt-processor:latest 
+            env:
+            - name: JOBSPY_API_URL
+              valueFrom:
+                configMapKeyRef: { name: kubejobhunt-config, key: JOBSPY_API_URL }
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef: { name: kubejobhunt-config, key: DATABASE_URL }
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef: { name: kubejobhunt-secrets, key: POSTGRES_PASSWORD }
+            - name: JOBSPY_API_KEY
+              valueFrom:
+                secretKeyRef: { name: kubejobhunt-secrets, key: API_KEY }
+          restartPolicy: OnFailure

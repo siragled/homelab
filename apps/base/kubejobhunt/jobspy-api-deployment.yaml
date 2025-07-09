@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jobspy-api
+  namespace: kubejobhunt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jobspy-api
+  template:
+    metadata:
+      labels:
+        app: jobspy-api
+    spec:
+      containers:
+      - name: jobspy-api
+        image: rainmanjam/jobspy-api:latest
+        ports:
+        - containerPort: 8085
+        env:
+        - name: ENABLE_API_KEY_AUTH
+          value: "true"
+        - name: API_KEYS
+          valueFrom:
+            secretKeyRef:
+              name: kubejobhunt-secrets
+              key: API_KEY
+        - name: DEFAULT_COUNTRY_INDEED
+          value: "Netherlands"

@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ai-curator-cron
+  namespace: kubejobhunt
+spec:
+  schedule: "0 3 * * *" 
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: ai-curator
+            image: siragled/kubejobhunt-ai-curator:latest 
+            env:
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef: { name: kubejobhunt-config, key: DATABASE_URL }
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef: { name: kubejobhunt-secrets, key: POSTGRES_PASSWORD }
+            - name: OPENROUTER_API_KEY
+              valueFrom:
+                secretKeyRef: { name: kubejobhunt-secrets, key: OPENROUTER_API_KEY }
+          restartPolicy: OnFailure

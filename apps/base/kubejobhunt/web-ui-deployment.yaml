@@ -1,28 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kube-job-ui
+  name: web-ui
   namespace: kubejobhunt
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kube-job-ui
+      app: web-ui
   template:
     metadata:
       labels:
-        app: kube-job-ui
+        app: web-ui
     spec:
       containers:
       - name: web-ui
-        image: siragled/kube-job-ui:latest
+        image: siragled/kubejobhunt-web-ui:latest
         ports:
         - containerPort: 80
-        volumeMounts:
-        - name: job-data-storage
-          mountPath: /data
-          readOnly: true
-      volumes:
-      - name: job-data-storage
-        persistentVolumeClaim:
-          claimName: job-data-pvc
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: kubejobhunt-config
+              key: DATABASE_URL
+        - name: POSTGRES_PASSWORD 
+          valueFrom:
+            secretKeyRef:
+              name: kubejobhunt-secrets
+              key: POSTGRES_PASSWORD

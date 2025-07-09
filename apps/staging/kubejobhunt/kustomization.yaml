@@ -4,3 +4,4 @@ namespace: kubejobhunt
 resources:
   - ../../base/kubejobhunt
   - ingress.yaml
+  - secrets.yaml

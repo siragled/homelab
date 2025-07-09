@@ -3,6 +3,9 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - pvc.yaml
-  - scraper-cronjob.yaml
+  - cronjob.yaml
+  - configmap.yaml
+  - jobspy-api-deployment.yaml
+  - jobspy-api-service.yaml
   - web-ui-deployment.yaml
   - web-ui-service.yaml
