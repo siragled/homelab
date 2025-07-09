@@ -12,6 +12,11 @@ spec:
           containers:
           - name: ai-curator
             image: siragled/kubejobhunt-ai-curator:latest 
+            command: ["/bin/sh", "-c"]
+            args:
+            - |
+              echo "Starting AI curator script..."
+              python /app/curator.py
             env:
             - name: DATABASE_URL
               valueFrom:

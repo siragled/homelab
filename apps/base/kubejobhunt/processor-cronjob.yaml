@@ -11,18 +11,23 @@ spec:
         spec:
           containers:
           - name: processor
-            image: siragled/kubejobhunt-processor:latest 
+            image: danils/kubejobhunt-processor:latest
+            command: ["/bin/sh", "-c"]
+            args:
+            - |
+              echo "Starting processor script..."
+              python /app/processor.py
             env:
             - name: JOBSPY_API_URL
               valueFrom:
                 configMapKeyRef: { name: kubejobhunt-config, key: JOBSPY_API_URL }
-            - name: DATABASE_URL
+            - name: DATABASE_URL 
               valueFrom:
                 configMapKeyRef: { name: kubejobhunt-config, key: DATABASE_URL }
-            - name: POSTGRES_PASSWORD
+            - name: POSTGRES_PASSWORD 
               valueFrom:
                 secretKeyRef: { name: kubejobhunt-secrets, key: POSTGRES_PASSWORD }
             - name: JOBSPY_API_KEY
               valueFrom:
-                secretKeyRef: { name: kubejobhunt-secrets, key: API_KEY }
+                secretKeyRef: { name: kubejobhunt-secrets, key: JOBSPY_API_KEY }
           restartPolicy: OnFailure
