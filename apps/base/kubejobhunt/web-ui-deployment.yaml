@@ -24,11 +24,11 @@ spec:
           export DATABASE_URL=$(printf "$DATABASE_URL_TEMPLATE" "$POSTGRES_PASSWORD")
           uvicorn main:app --host 0.0.0.0 --port 80
         env:
-        - name: DATABASE_URL
+        - name: DATABASE_URL_TEMPLATE
           valueFrom:
             configMapKeyRef:
               name: kubejobhunt-config
-              key: DATABASE_URL
+              key: DATABASE_URL_TEMPLATE
         - name: POSTGRES_PASSWORD 
           valueFrom:
             secretKeyRef:
