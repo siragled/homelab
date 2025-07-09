@@ -6,4 +6,4 @@ metadata:
 data:
   POSTGRES_DB: "jobhunt_db"
   DATABASE_URL_TEMPLATE: "postgresql+psycopg2://jobhunter:%s@postgres-db:5432/jobhunt_db"  
-  JOBSPY_API_URL: "http://jobspy-api:8000/api/v1/search_jobs"
+  JOBSPY_API_URL: "http://jobspy-api:8085/api/v1/search_jobs"
