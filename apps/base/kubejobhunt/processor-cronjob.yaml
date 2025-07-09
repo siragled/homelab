@@ -11,7 +11,7 @@ spec:
         spec:
           containers:
           - name: processor
-            image: danils/kubejobhunt-processor:latest
+            image: siragled/kubejobhunt-processor:latest
             command: ["/bin/sh", "-c"]
             args:
             - |
