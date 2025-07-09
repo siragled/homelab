@@ -3,9 +3,12 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - pvc.yaml
-  - cronjob.yaml
   - configmap.yaml
+  - postgres-deployment.yaml
+  - postgres-service.yaml
   - jobspy-api-deployment.yaml
   - jobspy-api-service.yaml
   - web-ui-deployment.yaml
   - web-ui-service.yaml
+  - processor-cronjob.yaml
+  - curator-cronjob.yaml
