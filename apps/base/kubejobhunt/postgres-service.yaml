@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres-db # The name other pods will use to connect
+  name: postgres-db 
   namespace: kubejobhunt
 spec:
   selector:

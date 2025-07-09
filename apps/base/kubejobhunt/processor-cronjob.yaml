@@ -15,15 +15,16 @@ spec:
             command: ["/bin/sh", "-c"]
             args:
             - |
-              echo "Starting processor script..."
+              export DATABASE_URL=$(printf "$DATABASE_URL_TEMPLATE" "$POSTGRES_PASSWORD")
+              echo "Processor starting..."
               python /app/processor.py
             env:
             - name: JOBSPY_API_URL
               valueFrom:
                 configMapKeyRef: { name: kubejobhunt-config, key: JOBSPY_API_URL }
-            - name: DATABASE_URL 
+            - name: DATABASE_URL_TEMPLATE 
               valueFrom:
-                configMapKeyRef: { name: kubejobhunt-config, key: DATABASE_URL }
+                configMapKeyRef: { name: kubejobhunt-config, key: DATABASE_URL_TEMPLATE }
             - name: POSTGRES_PASSWORD 
               valueFrom:
                 secretKeyRef: { name: kubejobhunt-secrets, key: POSTGRES_PASSWORD }

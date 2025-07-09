@@ -15,12 +15,13 @@ spec:
             command: ["/bin/sh", "-c"]
             args:
             - |
+              export DATABASE_URL=$(printf "$DATABASE_URL_TEMPLATE" "$POSTGRES_PASSWORD")
               echo "Starting AI curator script..."
               python /app/curator.py
             env:
-            - name: DATABASE_URL
+            - name: DATABASE_URL_TEMPLATE
               valueFrom:
-                configMapKeyRef: { name: kubejobhunt-config, key: DATABASE_URL }
+                configMapKeyRef: { name: kubejobhunt-config, key: DATABASE_URL_TEMPLATE }
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef: { name: kubejobhunt-secrets, key: POSTGRES_PASSWORD }
