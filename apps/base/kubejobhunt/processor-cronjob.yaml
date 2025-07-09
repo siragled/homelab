@@ -29,5 +29,5 @@ spec:
                 secretKeyRef: { name: kubejobhunt-secrets, key: POSTGRES_PASSWORD }
             - name: JOBSPY_API_KEY
               valueFrom:
-                secretKeyRef: { name: kubejobhunt-secrets, key: JOBSPY_API_KEY }
+                secretKeyRef: { name: kubejobhunt-secrets, key: API_KEY }
           restartPolicy: OnFailure
