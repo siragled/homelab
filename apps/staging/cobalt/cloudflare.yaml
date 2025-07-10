@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cloudflared
+  name: cloudflared-frontend
 spec:
   selector:
     matchLabels:
-      app: cloudflared
+      app: cloudflared-frontend
   replicas: 2 # You could also consider elastic scaling for this deployment
   template:
     metadata:
       labels:
-        app: cloudflared
+        app: cloudflared-frontend
     spec:
       containers:
-      - name: cloudflared
+      - name: cloudflared-frontend
         image: cloudflare/cloudflared:latest
         args:
         - tunnel
@@ -51,7 +51,7 @@ spec:
       # Create a config.yaml file from the ConfigMap below.
       - name: config
         configMap:
-          name: cloudflared
+          name: cloudflared-frontend
           items:
           - key: config.yaml
             path: config.yaml
@@ -63,7 +63,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cloudflared
+  name: cloudflared-frontend
 data:
   config.yaml: |
     # Name of the tunnel you want to run
@@ -91,19 +91,19 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cloudflared
+  name: cloudflared-backend
 spec:
   selector:
     matchLabels:
-      app: cloudflared
+      app: cloudflared-backend
   replicas: 2 # You could also consider elastic scaling for this deployment
   template:
     metadata:
       labels:
-        app: cloudflared
+        app: cloudflared-backend
     spec:
       containers:
-      - name: cloudflared
+      - name: cloudflared-backend
         image: cloudflare/cloudflared:latest
         args:
         - tunnel
@@ -141,7 +141,7 @@ spec:
       # Create a config.yaml file from the ConfigMap below.
       - name: config
         configMap:
-          name: cloudflared
+          name: cloudflared-backend
           items:
           - key: config.yaml
             path: config.yaml
@@ -153,7 +153,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cloudflared
+  name: cloudflared-backend
 data:
   config.yaml: |
     # Name of the tunnel you want to run
