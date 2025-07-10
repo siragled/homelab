@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cobalt-ingress
+  namespace: cobalt
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+    traefik.ingress.kubernetes.io/router.middlewares: cobalt-strip-api-prefix@kubernetescrd
+spec:
+  rules:
+  - host: "dl.danils.org"
+    http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: cobalt-api-svc
+            port:
+              name: http
+
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: cobalt-frontend-svc
+            port:
+              name: http
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-api-prefix
+  namespace: cobalt
+spec:
+  stripPrefix:
+    prefixes:
+      - /api

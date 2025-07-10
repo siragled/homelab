@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cobalt
+  name: cobalt-api
   namespace: cobalt
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cobalt
+      app: cobalt-api
   template:
     metadata:
       labels:
-        app: cobalt
+        app: cobalt-api
     spec:
       securityContext:
         fsGroup: 33 
@@ -19,7 +19,7 @@ spec:
         runAsGroup: 33
 
       containers:
-        - name: cobalt
+        - name: api
           image: ghcr.io/imputnet/cobalt:11
           ports:
             - containerPort: 9000

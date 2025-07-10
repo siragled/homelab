@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cobalt-frontend
+  namespace: cobalt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cobalt-frontend
+  template:
+    metadata:
+      labels:
+        app: cobalt-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: siragled/custom-cobalt-frontend:1.0
+        ports:
+        - containerPort: 3000
