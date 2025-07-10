@@ -4,4 +4,4 @@ metadata:
   name: cobalt-config
   namespace: cobalt
 data:
-  API_URL: "http://cobalt-api-svc.cobalt:9000/"
+  API_URL: "http://cobalt.danils.org/"

@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: siragled/custom-cobalt-frontend:1.0
+        image: siragled/custom-cobalt-frontend:latest 
         ports:
         - containerPort: 3000
