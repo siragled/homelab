@@ -5,3 +5,4 @@ resources:
   - ../../base/cobalt/
   - cloudflare.yaml
   - cloudflare-secret.yaml
+  - ingress.yaml
