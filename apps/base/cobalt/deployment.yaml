@@ -28,6 +28,6 @@ spec:
             readOnlyRootFilesystem: true
           envFrom:
             - configMapRef:
-              name: cobalt-config
+                name: cobalt-config
 
 
