@@ -16,7 +16,7 @@ spec:
       terminationGracePeriodSeconds: 60
       containers:
       - name: minecraft
-        image: openjdk:21-jdk-slim
+        image: openjdk:26-jdk-slim
         workingDir: /data
         command: ["bash", "./run.sh"]
 
