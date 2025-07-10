@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cobalt-config
+  namespace: cobalt
+data:
+  API_URL: "https://dl.danils.org/"
