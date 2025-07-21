@@ -6,3 +6,5 @@ resources:
   - minecraft-monitor.yaml
   - storage.yaml
   - minecraft-service.yaml
+  - prometheus-rule.yaml
+  - scaler-webhook.yaml

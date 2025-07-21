@@ -1,0 +1,66 @@
+# minecraft-idle-shutdown.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: minecraft-idle
+  namespace: minecraft
+spec:
+  groups:
+  - name: minecraft.rules
+    rules:
+    - alert: MinecraftIdle15m
+      expr: minecraft_status_players_online_count{job="minecraft-monitor"} == 0
+      for: 15m
+      labels:
+        action: shutdown
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: prometheus-scale-minecraft
+rules:
+- apiGroups: ["apps"]
+  resources: ["deployments/scale"]
+  resourceNames: ["minecraft"]
+  verbs: ["patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: prometheus-scale-minecraft
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: prometheus-scale-minecraft
+subjects:
+- kind: ServiceAccount
+  name: prometheus-kube-prometheus-prometheus
+  namespace: monitoring
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: minecraft-idle
+  namespace: minecraft
+spec:
+  route:
+    groupBy: [alertname]
+    groupWait: 0s
+    groupInterval: 0s
+    repeatInterval: 24h
+    receiver: scale-down
+  receivers:
+  - name: scale-down
+    webhookConfigs:
+    - url: https://kubernetes.default.svc/apis/apps/v1/namespaces/minecraft/deployments/minecraft/scale
+      httpConfig:
+        tlsConfig:
+          insecureSkipVerify: false
+        authorization:
+          credentialsFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+      sendResolved: false
+      payload: |
+        {
+          "spec": { "replicas": 0 }
+        }
+      method: PATCH

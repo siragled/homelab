@@ -1,0 +1,73 @@
+---
+# RBAC: Service Account, Role, and RoleBinding to allow the pod to patch deployments
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: scaler-webhook-sa
+  namespace: minecraft
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: deployment-scaler-role
+  namespace: minecraft
+rules:
+- apiGroups: ["apps"]
+  resources: ["deployments/scale"]
+  verbs: ["get", "patch", "update"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: scaler-webhook-rb
+  namespace: minecraft
+subjects:
+- kind: ServiceAccount
+  name: scaler-webhook-sa
+  namespace: minecraft
+roleRef:
+  kind: Role
+  name: deployment-scaler-role
+  apiGroup: rbac.authorization.k8s.io
+
+---
+# The Deployment for our Python application
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scaler-webhook
+  namespace: minecraft
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scaler-webhook
+  template:
+    metadata:
+      labels:
+        app: scaler-webhook
+    spec:
+      serviceAccountName: scaler-webhook-sa
+      containers:
+      - name: webhook
+        # IMPORTANT: Replace with your actual image
+        image: your-repo/k8s-scaler-webhook:v1 
+        ports:
+        - containerPort: 5001
+
+---
+# The Service to expose the webhook pod internally
+apiVersion: v1
+kind: Service
+metadata:
+  name: scaler-webhook-svc
+  namespace: minecraft
+spec:
+  selector:
+    app: scaler-webhook
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5001
