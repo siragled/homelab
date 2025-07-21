@@ -37,3 +37,31 @@ spec:
           - secretName: grafana-tls-secret
             hosts:
               - grs.danils.org
+    alertmanager:
+      config:
+        global:
+          resolve_timeout: 5m
+        
+        route:
+          group_by: ['job']
+          receiver: 'default-receiver'
+          routes:
+            - receiver: 'minecraft-scaler'
+              match_labels:
+                action: "scale-down" 
+              continue: false
+
+            - receiver: 'minecraft-scaler'
+              match_labels:
+                action: "scale-up"
+              continue: false
+
+        receivers:
+        - name: 'default-receiver'
+          webhook_configs:
+          - url: 'http://example.com/dead-end' 
+
+        - name: 'minecraft-scaler'
+          webhook_configs:
+          - url: 'http://scaler-webhook-svc.minecraft.svc.cluster.local/webhook'
+            send_resolved: true
