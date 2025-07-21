@@ -17,9 +17,9 @@ spec:
       - name: mc-monitor
         image: itzg/mc-monitor:latest
         args:
-          - serve-prometheus
+          - export-for-prometheus
           - --servers=minecraft:25565  
-          - --bind=:9225
+          - --port=9225
         ports:
         - name: metrics
           containerPort: 9225
