@@ -6,7 +6,3 @@ resources:
   - storage.yaml
   - service.yaml
   - rbac.yaml
-  - control-dep.yaml
-  - control-svc.yaml
-  # - monitor-config.yaml
-  # - monitor.yaml
