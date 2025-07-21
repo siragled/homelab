@@ -6,4 +6,3 @@ resources:
   - cloudflare.yaml
   - cloudflare-secret.yaml
   - kubeconfig-secret.yaml
-  - rcon-secret.yaml
