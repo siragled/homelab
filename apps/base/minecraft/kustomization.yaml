@@ -6,4 +6,3 @@ resources:
   - minecraft-monitor.yaml
   - storage.yaml
   - minecraft-service.yaml
-  - rbac.yaml
