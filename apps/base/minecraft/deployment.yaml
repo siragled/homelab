@@ -33,19 +33,6 @@ spec:
           runAsNonRoot: true
           allowPrivilegeEscalation: false
 
-      - name: mc-monitor
-        image: itzg/mc-monitor:latest
-        args:
-          - serve-prometheus
-          - --servers=minecraft:25565 
-          - --bind=:9225               
-        ports:
-          - containerPort: 9225
-        securityContext:
-          runAsUser: 1000
-          runAsGroup: 1000
-          runAsNonRoot: true
-
       volumes:
       - name: minecraft-data
         persistentVolumeClaim:
