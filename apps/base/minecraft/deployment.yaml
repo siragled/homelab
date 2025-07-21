@@ -32,6 +32,14 @@ spec:
           runAsGroup: 1000
           runAsNonRoot: true
           allowPrivilegeEscalation: false
+
+      - name: player-counter
+        image: ghcr.io/itzg/mc-status-exporter:1
+        ports:
+        - name: metrics
+          containerPort: 9225
+        args: ["-address", "localhost:25565"]
+        
       volumes:
       - name: minecraft-data
         persistentVolumeClaim:
