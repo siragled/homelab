@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft-monitor
+  namespace: minecraft
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minecraft-monitor
+  template:
+    metadata:
+      labels:
+        app: minecraft-monitor
+    spec:
+      containers:
+      - name: mc-monitor
+        image: itzg/mc-monitor:latest
+        args:
+          - serve-prometheus
+          - --servers=minecraft:25565  
+          - --bind=:9225
+        ports:
+        - name: metrics
+          containerPort: 9225
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+          runAsNonRoot: true
+          allowPrivilegeEscalation: false
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minecraft-monitor
+  namespace: minecraft
+  labels:
+    app: minecraft-monitor
+spec:
+  selector:
+    app: minecraft-monitor
+  ports:
+    - name: metrics
+      port: 9225
+      targetPort: 9225
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: minecraft-monitor
+  namespace: minecraft
+  labels:
+    release: kube-prometheus-stack     
+spec:
+  selector:
+    matchLabels:
+      app: minecraft-monitor
+  endpoints:
+    - port: metrics
+      interval: 15s
+      path: /metrics

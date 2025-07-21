@@ -13,7 +13,4 @@ spec:
       port: 25565
       targetPort: 25565
       nodePort: 30065
-    - name: metrics 
-      protocol: TCP
-      port: 9225
-      targetPort: 9225
+
